@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(FAST)
 
 option(VTK_INTEROP "Enable interoperability with VTK" OFF)
@@ -139,12 +139,16 @@ add_subdirectory(OpenCLUtilityLibrary)
 find_package(OpenCLUtilityLibrary PATHS "${FAST_BINARY_DIR}/OpenCLUtilityLibrary" REQUIRED)
 include(${OpenCLUtilityLibrary_USE_FILE})
 
-## Qt
-set(QT_USE_QTOPENGL TRUE)
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
-QT4_WRAP_CPP(HEADERS_MOC ${HEADERS})
+# Qt5
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+
+# Widgets finds its own dependencies (QtGui and QtCore).
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5OpenGL REQUIRED)
+find_package(Qt5Declarative REQUIRED)
 
 ## Boost
 find_package(Boost COMPONENTS system thread iostreams REQUIRED)
@@ -161,6 +165,12 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(examples ${SOURCES} ${HEADERS_MOC})
 add_library(FAST ${SOURCES} ${HEADERS_MOC})
+
+# Qt5
+qt5_use_modules(FAST Widgets OpenGL Declarative)
+qt5_use_modules(examples Widgets OpenGL Declarative)
+target_link_libraries(FAST Qt5::Widgets)
+target_link_libraries(examples Qt5::Widgets)
 
 set(LIBRARIES
     OpenCLUtilityLibrary
