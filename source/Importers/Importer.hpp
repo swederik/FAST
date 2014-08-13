@@ -1,7 +1,7 @@
 #ifndef IMPORTER_HPP_
 #define IMPORTER_HPP_
 
-#include "ProcessObject.hpp"
+#include "../ProcessObject.hpp"
 
 namespace fast {
 

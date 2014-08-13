@@ -4,7 +4,7 @@ project(FAST)
 option(VTK_INTEROP "Enable interoperability with VTK" OFF)
 option(ITK_INTEROP "Enable interoperability with ITK" OFF)
 
-set(SOURCES 
+set(SOURCES
     main.cpp
     Object.cpp
     Object.hpp
@@ -34,6 +34,88 @@ set(SOURCES
     Data/DataObject.cpp
     Data/DataObject.hpp
     Data/DynamicData.hpp
+    Data/Image.cpp
+    Data/Image.hpp
+    Data/DataTypes.cpp
+    Data/DataTypes.hpp
+    Data/Surface.cpp
+    Data/Surface.hpp
+    Data/SurfaceVertex.hpp
+    Data/Access/Access.hpp
+    Data/Access/OpenCLBufferAccess.cpp
+    Data/Access/OpenCLBufferAccess.hpp
+    Data/Access/OpenCLImageAccess2D.cpp
+    Data/Access/OpenCLImageAccess2D.hpp
+    Data/Access/OpenCLImageAccess3D.cpp
+    Data/Access/OpenCLImageAccess3D.hpp
+    Data/Access/ImageAccess.cpp
+    Data/Access/ImageAccess.hpp
+    Data/Access/VertexBufferObjectAccess.cpp
+    Data/Access/VertexBufferObjectAccess.hpp
+    Data/Access/SurfacePointerAccess.cpp
+    Data/Access/SurfacePointerAccess.hpp
+    Streamers/Streamer.cpp
+    Streamers/Streamer.hpp
+    Streamers/ImageStreamer.cpp
+    Streamers/ImageStreamer.hpp
+    Streamers/MetaImageStreamer.cpp
+    Streamers/MetaImageStreamer.hpp
+    Importers/MetaImageImporter.cpp
+    Importers/MetaImageImporter.hpp
+    Importers/ImageImporter.cpp
+    Importers/ImageImporter.hpp
+    Importers/Importer.hpp
+    Exporters/ImageExporter.cpp
+    Exporters/ImageExporter.hpp
+    Exporters/MetaImageExporter.cpp
+    Exporters/MetaImageExporter.hpp
+    Visualization/SimpleWindow.cpp
+    Visualization/SimpleWindow.hpp
+    Visualization/WindowWidget.cpp
+    Visualization/WindowWidget.hpp
+    Visualization/View.cpp
+    Visualization/View.hpp
+    Visualization/Renderer.cpp
+    Visualization/Renderer.hpp
+    Visualization/ImageRenderer/ImageRenderer.cpp
+    Visualization/ImageRenderer/ImageRenderer.hpp
+    Visualization/SliceRenderer/SliceRenderer.cpp
+    Visualization/SliceRenderer/SliceRenderer.hpp
+    Visualization/SurfaceRenderer/SurfaceRenderer.cpp
+    Visualization/SurfaceRenderer/SurfaceRenderer.hpp
+    Visualization/VolumeRenderer/VolumeRenderer.cpp
+    Visualization/VolumeRenderer/VolumeRenderer.hpp
+    Visualization/VolumeRenderer/ColorTransferFunction.cpp
+    Visualization/VolumeRenderer/ColorTransferFunction.hpp
+    Visualization/VolumeRenderer/OpacityTransferFunction.cpp
+    Visualization/VolumeRenderer/OpacityTransferFunction.hpp
+)
+
+set(ERIKSOURCE
+    erikTest.cpp
+    Object.cpp
+    Object.hpp
+    SmartPointers.hpp
+    ProcessObject.cpp
+    ProcessObject.hpp
+    ExecutionDevice.cpp
+    ExecutionDevice.hpp
+    DeviceManager.cpp
+    DeviceManager.hpp
+    Exception.cpp
+    Exception.hpp
+    Utility.cpp
+    Utility.hpp
+    Algorithms/GaussianSmoothingFilter/GaussianSmoothingFilter.cpp
+    Algorithms/GaussianSmoothingFilter/GaussianSmoothingFilter.hpp
+    Algorithms/SurfaceExtraction/SurfaceExtraction.cpp
+    Algorithms/SurfaceExtraction/SurfaceExtraction.hpp
+    Data/DataObject.cpp
+    Data/DataObject.hpp
+    Data/ImageData.cpp
+    Data/ImageData.hpp
+    Data/DynamicImage.cpp
+    Data/DynamicImage.hpp
     Data/Image.cpp
     Data/Image.hpp
     Data/DataTypes.cpp
@@ -164,13 +246,16 @@ include_directories(${GLEW_INCLUDE_PATH})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(examples ${SOURCES} ${HEADERS_MOC})
+add_executable(erikTest ${ERIKSOURCE} ${HEADERS_MOC})
 add_library(FAST ${SOURCES} ${HEADERS_MOC})
 
 # Qt5
 qt5_use_modules(FAST Widgets OpenGL Declarative)
 qt5_use_modules(examples Widgets OpenGL Declarative)
+qt5_use_modules(erikTest Widgets OpenGL Declarative)
 target_link_libraries(FAST Qt5::Widgets)
 target_link_libraries(examples Qt5::Widgets)
+target_link_libraries(erikTest Qt5::Widgets)
 
 set(LIBRARIES
     OpenCLUtilityLibrary
@@ -194,6 +279,7 @@ if(ITK_INTEROP)
 endif()
 
 target_link_libraries(examples ${LIBRARIES})
+target_link_libraries(erikTest ${LIBRARIES})
 target_link_libraries(FAST ${LIBRARIES})
 
 add_subdirectory(Tests)

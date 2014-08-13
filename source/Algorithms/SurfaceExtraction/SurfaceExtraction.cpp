@@ -38,7 +38,7 @@ inline unsigned int getRequiredHistogramPyramidSize(Image::pointer input) {
 
 void SurfaceExtraction::execute() {
     if(!mInput.isValid())
-        throw Exception("No input was given to SurfaceRenderer");
+        throw Exception("No input was given to SurfaceExtraction");
 
     Image::pointer input;
     if(mInput->isDynamicData()) {
