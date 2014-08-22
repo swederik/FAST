@@ -116,9 +116,9 @@ VolumeRenderer::VolumeRenderer() : Renderer() {
 void VolumeRenderer::execute() {
 
 	if(numberOfVolumes<0)
-        throw Exception("Not a correct number of volumes is given to VolumeRenderer.");
+        throw Exception("An incorrect number of volumes was given to VolumeRenderer.");
 	if(numberOfVolumes>maxNumberOfVolumes)
-		printf("Warning: Volume Renderer currently supports only up to %d volumes. Extera inputs are denied. \n", maxNumberOfVolumes);
+		printf("Warning: Volume Renderer currently supports only up to %d volumes. Extra inputs are denied. \n", maxNumberOfVolumes);
 
 	for(unsigned int i=0;i<numberOfVolumes;i++)
 	{
@@ -143,7 +143,7 @@ void VolumeRenderer::execute() {
 		if(inputs[i]->getNrOfComponents() !=1)
 		{
 			char errorMessage[255];
-			sprintf(errorMessage, "The VolumeRenderer currentlt only supports single chanel images; check input volume number %d.", i);
+			sprintf(errorMessage, "The VolumeRenderer currently only supports single chanel images; check input volume number %d.", i);
 			throw Exception(errorMessage);
 		}
 	}

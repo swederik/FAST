@@ -93,6 +93,7 @@ set(SOURCES
 
 set(ERIKSOURCE
     erikTest.cpp
+    Exporters/openctm.h
     Object.cpp
     Object.hpp
     SmartPointers.hpp
