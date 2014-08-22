@@ -106,17 +106,7 @@ void SliceRenderer::execute() {
     }
     mSliceNr = sliceNr;
 
-<<<<<<< HEAD
     OpenCLImageAccess3D access = mImageToRender->getOpenCLImageAccess3D(ACCESS_READ, mDevice);
-=======
-    // Old way
-    //glViewport(0,0,mWidth*mScale,mHeight*mScale);
-    /*for(unsigned int i = 0; i < mRenderers.size(); i++) {
-        mRenderers[i].set_viewport (*this, 0, 0, width, height);
-    }*/
-
-    OpenCLImageAccess3D access = input->getOpenCLImageAccess3D(ACCESS_READ, mDevice);
->>>>>>> Attempt to fix HiDPI rendering using devicePixelRatio
     cl::Image3D* clImage = access.get();
 
     glEnable(GL_TEXTURE_2D);
