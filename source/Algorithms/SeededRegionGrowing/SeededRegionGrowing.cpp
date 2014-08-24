@@ -153,13 +153,12 @@ void SeededRegionGrowing::execute() {
         // Initialize to all 0s
         for(int i = 0; i < output->getWidth()*output->getHeight()*output->getDepth(); i++)
             outputData[i] = 0;
-        // Add sedd points
+        // Add seed points
         for(int i = 0; i < mSeedPoints.size(); i++) {
             Uint<3> pos = mSeedPoints[i];
 
             // Check if seed point is in bounds
-            if(pos.x() < 0 || pos.y() < 0 || pos.z() < 0 ||
-                pos.x() >= output->getWidth() || pos.y() >= output->getHeight() || pos.z() >= output->getDepth())
+            if(pos.x() >= output->getWidth() || pos.y() >= output->getHeight() || pos.z() >= output->getDepth())
                 throw Exception("One of the seed points given to SeededRegionGrowing was out of bounds.");
 
             outputData[pos.x() + pos.y()*output->getWidth() + pos.z()*output->getWidth()*output->getHeight()] = 2;

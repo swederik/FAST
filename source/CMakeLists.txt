@@ -94,6 +94,8 @@ set(SOURCES
 set(ERIKSOURCE
     erikTest.cpp
     Exporters/openctm.h
+    Exporters/CTMSurfaceExporter.cpp
+    Exporters/CTMSurfaceExporter.hpp
     Object.cpp
     Object.hpp
     SmartPointers.hpp
@@ -107,10 +109,18 @@ set(ERIKSOURCE
     Exception.hpp
     Utility.cpp
     Utility.hpp
+    SceneGraph.cpp
+    SceneGraph.hpp
+    LinearTransformation.cpp
+    LinearTransformation.hpp
     Algorithms/GaussianSmoothingFilter/GaussianSmoothingFilter.cpp
     Algorithms/GaussianSmoothingFilter/GaussianSmoothingFilter.hpp
+    Algorithms/SeededRegionGrowing/SeededRegionGrowing.cpp
+    Algorithms/SeededRegionGrowing/SeededRegionGrowing.hpp
     Algorithms/SurfaceExtraction/SurfaceExtraction.cpp
     Algorithms/SurfaceExtraction/SurfaceExtraction.hpp
+    Data/BoundingBox.cpp
+    Data/BoundingBox.hpp
     Data/DataObject.cpp
     Data/DataObject.hpp
     Data/DynamicData.hpp
@@ -241,6 +251,18 @@ find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIR})
 include_directories(${GLEW_INCLUDE_PATH})
 
+## OpenCL
+find_package(OpenCL REQUIRED)
+
+message(STATUS "OpenCL found: ${OPENCL_FOUND}")
+message(STATUS "OpenCL includes: ${OPENCL_INCLUDE_DIRS}")
+message(STATUS "OpenCL CXX includes: ${OPENCL_HAS_CPP_BINDINGS}")
+message(STATUS "OpenCL libraries: ${OPENCL_LIBRARIES}")
+
+include_directories(${OPENCL_INCLUDE_DIRS})
+#include_directories(${_OPENCL_CPP_INCLUDE_DIRS})
+include_directories(${OPENCL_LIBRARIES})
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(examples ${SOURCES} ${HEADERS_MOC})
@@ -279,5 +301,12 @@ endif()
 target_link_libraries(examples ${LIBRARIES})
 target_link_libraries(erikTest ${LIBRARIES})
 target_link_libraries(FAST ${LIBRARIES})
+
+if(APPLE)
+  set(OPENCL_FOUND YES)
+  set(OPENCL_LIBRARY "-framework OpenCL" CACHE STRING "OpenCL library")
+  set(OPENCL_INCLUDE_DIR "" CACHE STRING "OpenCL include directory")
+  mark_as_advanced(OPENCL_INCLUDE_DIR OPENCL_LIBRARY)
+endif(APPLE)
 
 add_subdirectory(Tests)

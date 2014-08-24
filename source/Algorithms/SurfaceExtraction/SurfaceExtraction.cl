@@ -32,7 +32,7 @@ __kernel void constructHPLevel(
     write_imagei(writeHistoPyramid, writePos, writeValue);
 }
 
-int4 scanHPLevel(int target, __read_only image3d_t hp, int4 current) {
+static int4 scanHPLevel(int target, __read_only image3d_t hp, int4 current) {
 
     int8 neighbors = {
         read_imagei(hp, sampler, current).x,
@@ -466,9 +466,9 @@ __kernel void traverseHP(
             isolevel-value0,
             READ_RAW_DATA(rawData, sampler, (int4)(point1.x, point1.y, point1.z, 0)).x - value0);
 
-        const float3 vertex = mix((float3)(point0.x, point0.y, point0.z), (float3)(point1.x, point1.y, point1.z), diff);
+        const float3 vertex = (float3)(point0.x, point0.y, point0.z) + ((float3)(point1.x, point1.y, point1.z)-(float3)(point0.x, point0.y, point0.z))*diff;
 
-        const float3 normal = mix(forwardDifference0, forwardDifference1, diff);
+        const float3 normal = forwardDifference0 + (forwardDifference1-forwardDifference0)*diff;
 
         vstore3(vertex, target*6 + vertexNr*2, VBOBuffer);
         vstore3(normal, target*6 + vertexNr*2 + 1, VBOBuffer);
