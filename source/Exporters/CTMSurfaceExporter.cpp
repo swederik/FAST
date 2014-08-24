@@ -39,7 +39,7 @@ void MySaveFile(CTMuint aVertCount, CTMuint aTriCount,
     }
     catch(exception &e)
     {
-        cout << "Error: " << e.what() << endl;
+        std::cout << "Error: " << e.what() << std::endl;
     }
 }
 
@@ -68,7 +68,7 @@ void CTMSurfaceExporter::execute() {
     }
     catch(exception &e)
     {
-        cout << "Error: " << e.what() << endl;
+        std::cout << "Error: " << e.what() << std::endl;
     }
 
 }
