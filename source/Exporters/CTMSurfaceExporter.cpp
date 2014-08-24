@@ -3,7 +3,7 @@
 #include "Exception.hpp"
 #include "Utility.hpp"
 #include "Surface.hpp"
-//#include "openctm.h"
+#include "openctm.h"
 
 namespace fast {
 
@@ -23,7 +23,7 @@ CTMSurfaceExporter::CTMSurfaceExporter() {
     mIsModified = true;
 }
 
-void MySaveFile(CTMuint aVertCount, CTMuint aTriCount,
+/*void MySaveFile(CTMuint aVertCount, CTMuint aTriCount,
     CTMfloat * aVertices, CTMuint * aIndices,
     const char * aFileName)
 {
@@ -37,11 +37,11 @@ void MySaveFile(CTMuint aVertCount, CTMuint aTriCount,
         // Save the OpenCTM file
         ctm.Save(aFileName);
     }
-    catch(exception &e)
+    catch(Exception &e)
     {
         std::cout << "Error: " << e.what() << std::endl;
     }
-}
+}*/
 
 void CTMSurfaceExporter::execute() {
     if(!mInput.isValid())
@@ -53,20 +53,20 @@ void CTMSurfaceExporter::execute() {
     Surface::pointer input;
 
     input = mInput;
-    aVertCount = input->getNrOfTriangles();
+    //aVertCount = input->getNrOfTriangles();
     
 
     // From OpenCTM C++ Exporter example
     try
     {
         // Create a new OpenCTM exporter object
-        CTMexporter ctm;
+        CTMSurfaceExporter ctm;
         // Define our mesh representation to OpenCTM
-        ctm.DefineMesh(aVertices, aVertCount, aIndices, aTriCount, aNormals);
+        //ctm.DefineMesh(aVertices, aVertCount, aIndices, aTriCount, aNormals);
         // Save the OpenCTM file
-        ctm.Save(mFileName);
+        // ctm.Save(mFilename);
     }
-    catch(exception &e)
+    catch(Exception &e)
     {
         std::cout << "Error: " << e.what() << std::endl;
     }
